@@ -1,0 +1,71 @@
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin"
+
+  # Security Realm for user authentication
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "admin"
+          password: "admin"
+
+        - id: "developer"
+          password: "developer"
+
+        - id: "viewer"
+          password: "viewer"
+
+
+  # Authorization Strategy
+  authorizationStrategy:
+    projectMatrix:
+      permissions:
+        - "Overall/Administer:admin"
+        - "Job/Read:developer"
+        - "Job/Build:developer"
+        - "Job/Read:viewer"
+
+
+
+# Tool Configuration
+tool:
+  git:
+    installations:
+      - name: "Default"
+        home: "/usr/bin/git"
+  maven:
+    installations:
+      - name: "Maven 3"
+        home: "/usr/share/maven"
+
+# Sample Job Configuration
+jobs:
+  - script: >
+      pipelineJob('example-pipeline-job') {
+      definition {
+        cps {
+            script('''
+                pipeline {
+                    agent any
+                    stages {
+                        stage('Build') {
+                            steps {
+                                echo 'Building...'
+                            }
+                        }
+                        stage('Test') {
+                            steps {
+                                echo 'Testing...'
+                            }
+                        }
+                        stage('Deploy') {
+                            steps {
+                                echo 'Deploying...'
+                            }
+                        }
+                    }
+                }
+            ''')
+            }
+          }
+        } 

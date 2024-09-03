@@ -19,12 +19,21 @@ jenkins:
   # Authorization Strategy
   authorizationStrategy:
     projectMatrix:
-      permissions:
-        - "Overall/Administer:admin"
-        - "Overall/Read:developer"
-        - "Job/Build:developer"
-        - "Overall/Read:viewer"
-
+      entries:
+        - user:
+            name: admin
+            permissions:
+              - Overall/Administer
+        - user:
+            name: developer
+            permissions:
+              - Overall/Read
+              - Job/Build
+        - user:
+            name: viewer
+            permissions:
+              - Overall/Read
+      
 
 # Tool Configuration
 tool:
